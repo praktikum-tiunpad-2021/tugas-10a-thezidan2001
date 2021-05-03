@@ -5,6 +5,7 @@
 #include <unordered_set>
 #include <stack>
 #include <vector>
+#include <queue>
 
 namespace strukdat
 {
@@ -112,7 +113,6 @@ namespace strukdat
    */
     bool is_edge(const VertexType &val1, const VertexType &val2) const
     {
-      // TODO: Implementasikan!
     }
 
     /**
@@ -121,10 +121,33 @@ namespace strukdat
    * @param root vertex awal
    * @param func fungsi yang akan dieksekusi pada setiap vertex
    */
-    void bfs(const VertexType &root,
-             std::function<void(const VertexType &)> func) const
+    void bfs(const VertexType &root, std::function<void(const VertexType &)> func) const
     {
-      // TODO: Implementasikan!
+      std::unordered_map<VertexType, bool> visited;
+
+      for (auto &it : _adj_list)
+      {
+        visited.insert(std::make_pair(it.first, false));
+      }
+
+      std::queue<VertexType> antrian;
+      visited[root] = true;
+      antrian.push(root);
+
+      while (!antrian.empty())
+      {
+        VertexType bantu = antrian.front();
+        func(bantu);
+        antrian.pop();
+        for (auto it : _adj_list.at(bantu))
+        {
+          if (!visited[it])
+          {
+            visited[it] = true;
+            antrian.push(it);
+          }
+        }
+      }
     }
 
     /**
@@ -133,10 +156,38 @@ namespace strukdat
    * @param root vertex awal
    * @param func fungsi yang akan dieksekusi pada setiap vertex
    */
-    void dfs(const VertexType &root,
-             std::function<void(const VertexType &)> func) const
+    void dfs(const VertexType &root, std::function<void(const VertexType &)> func) const
     {
-      // TODO: Implementasikan!
+      std::unordered_map<VertexType, bool> visited;
+
+      for (auto &it : _adj_list)
+      {
+        visited.insert(std::make_pair(it.first, false));
+      }
+
+      std::stack<VertexType> antrian;
+      antrian.push(root);
+
+      while (!antrian.empty())
+      {
+
+        VertexType bantu = antrian.top();
+        antrian.pop();
+
+        if (!visited[bantu])
+        {
+          func(bantu);
+          visited[bantu] = true;
+        }
+
+        for (auto &it : _adj_list.at(bantu))
+        {
+          if (!visited[it])
+          {
+            antrian.push(it);
+          }
+        }
+      }
     }
 
   private:
