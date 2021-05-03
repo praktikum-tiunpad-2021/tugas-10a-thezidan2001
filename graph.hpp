@@ -113,6 +113,27 @@ namespace strukdat
    */
     bool is_edge(const VertexType &val1, const VertexType &val2) const
     {
+      if (_adj_list.find(val2) == _adj_list.end())
+      {
+        return false;
+      }
+
+      if (_adj_list.find(val1) == _adj_list.end())
+      {
+        return false;
+      }
+
+      if (_adj_list.at(val1).find(val2) == _adj_list.at(val1).end())
+      {
+        return false;
+      }
+
+      if (_adj_list.at(val2).find(val1) == _adj_list.at(val1).end())
+      {
+        return false;
+      }
+
+      return true;
     }
 
     /**
