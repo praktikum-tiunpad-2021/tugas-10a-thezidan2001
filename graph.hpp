@@ -4,7 +4,6 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <stack>
-#include <queue>
 #include <vector>
 
 namespace strukdat
@@ -67,18 +66,8 @@ namespace strukdat
    */
     void add_edge(const VertexType &val1, const VertexType val2)
     {
-      auto it = std::find(_adj_list[val1].begin(), _adj_list[val1].end(), val2);
-      if (it == _adj_list[val1].end())
-      {
-        _adj_list[val1].push_back(val2);
-        std::sort(_adj_list[val1].begin(), _adj_list[val1].end());
-      }
-      it = std::find(_adj_list[val2].begin(), _adj_list[val2].end(), val1);
-      if (it == _adj_list[val2].end())
-      {
-        _adj_list[val2].push_back(val1);
-        std::sort(_adj_list[val2].begin(), _adj_list[val2].end());
-      }
+      _adj_list[val1].insert(val2);
+      _adj_list[val2].insert(val1);
     }
 
     /**
